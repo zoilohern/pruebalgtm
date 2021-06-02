@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>DEMO XSS</title>
+</head>
+<body>
+<p>Today's weather information reads: </br>
+<div id="temp"></div>
+</p>
+<script type="text/javascript">
+let untrusted_ajax_res = document.write(location.replace("https://www.w3schools.com"));
+document.getElementById("temp").innerHTML=untrusted_ajax_res;
+</script>
+</body>
+</html>
+The snippet above shows how malicious code from an untrusted API can be injected into the DOM.
+To prevent client xss attacks, developers can install secure xss filters which can be used to sanitise inputs gotten from untrusted domains/locations. A snippet for a web use-case can be seen below:
+<!DOCTYPE html>
+...
+<script src="dist/xss-filters.min.js"></script>
+<script>
+let untrusted_ajax_res = document.write(location.replace("https://www.w3schools.com"));
+document.getElementById("temp").innerHTML=xssFilters.inHTMLData(untrusted_ajax_res);
+</script>
